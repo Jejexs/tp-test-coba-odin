@@ -56,32 +56,3 @@ export function getTeamScoreWithBlue(teamDices: string[], otherTeamDices: string
 export function isEqual(team1: string[], team2: string[]): boolean {
     return getTeamScoreWithBlue(team1, team2) === getTeamScoreWithBlue(team2, team1);
 }
-
-export function getSolution(dices: string[]): string[][] {
-    function generateCombinations(sourceArray: string[]): string[][] {
-        const combinations: string[][] = [];
-        const total = Math.pow(2, sourceArray.length);
-        for (let i = 1; i < total / 2; i++) {
-            let combo: string[] = [];
-            for (let j = 0; j < sourceArray.length; j++) {
-                if (i & (1 << j)) {
-                    combo.push(sourceArray[j]);
-                }
-            }
-            combinations.push(combo);
-        }
-        return combinations;
-    }
-
-    const allCombinations = generateCombinations(dices);
-
-    for (let i = 0; i < allCombinations.length; i++) {
-        const group1 = allCombinations[i];
-        const group2 = dices.filter(dice => !group1.includes(dice));
-        if (isEqual(group1, group2)) {
-            return [group1, group2];
-        }
-    }
-
-    return [];
-}
